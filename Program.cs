@@ -46,17 +46,18 @@ namespace MassImageOverlay
 		static Bitmap Overlay(Bitmap overlayed, Bitmap overlaying, bool adjustSize = true, bool onNonTransparentOnly = true)
 		{
 			Bitmap image = new Bitmap(overlayed.Width, overlayed.Height);
+			Bitmap newOverlaying = new Bitmap(overlaying);
 			if (adjustSize)
 			{
 				if (overlayed.Height != overlaying.Height)
 				{
-					overlaying = ResizeImage(overlaying, overlayed.Size);
+					newOverlaying = ResizeImage(newOverlaying, overlayed.Size);
 				}
 			}
 			using (Graphics gr = Graphics.FromImage(image))
 			{
 				gr.DrawImage(overlayed, new Point(0, 0));
-				gr.DrawImage(overlaying, new Point(0, 0));
+				gr.DrawImage(newOverlaying, new Point(0, 0));
 			}
 			return onNonTransparentOnly ? PaintIfTransparent(image, overlayed) : image;
 		}
